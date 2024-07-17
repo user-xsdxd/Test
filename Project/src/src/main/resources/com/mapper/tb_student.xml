@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.mapper.tb_student">
+
+    <!--    查询所有信息-->
+    <select id="selectAll" resultType="object.sub.Student">
+        select * from tb_student;
+    </select>
+
+    <!--    添加学生信息-->
+    <insert id="add"  keyProperty="sid" useGeneratedKeys="true">
+        insert into tb_student (sid,name,sex,grade) values (#{sid},#{name},#{sex},#{grade});
+    </insert>
+
+
+    <!--    修改学生信息-->
+    <update id="update">
+        update tb_student set
+           name = #{student.name},
+           sex = #{student.sex},
+           grade = #{student.grade}
+        where sid = #{id};
+    </update>
+
+
+    <!--    删除学生信息-->
+    <delete id="delete">
+        delete from tb_student where sid = #{sid};
+    </delete>
+    <update id="updateArr">
+        update tb_student set
+           sid = #{num1}
+        where sid = #{num2};
+    </update>
+
+
+    <!--    ==================-->
+    <!--    修改书籍信息-->
+    <update id="updateBook">
+        update tb_boot set
+                              title = #{book.title},
+                              `desc` = #{book.desc},
+                              price = #{book.price}
+        where bid = #{id};
+    </update>
+
+    <update id="updateArrBook">
+            update tb_boot set
+                bid = #{num1}
+            where bid = #{num2};
+    </update>
+
+
+
+    <!--============= 借阅信息 =================-->
+<!--    查询所有借阅记录-->
+    <select id="SelectBorrowingInformation" resultType="org.example.Borrow">
+        select name,grade,title,price,time from tb_student  join manage ON tb_student.sid = manage.sid
+                                                       join tb_boot ON tb_boot.bid = manage.bid
+    </select>
+<!--    添加借阅信息-->
+    <insert id="InsertBook">
+        insert into manage (id,sid,bid,time) values (#{id},#{sid},#{bid},#{time});
+    </insert>
+
+
+</mapper>
